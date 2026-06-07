@@ -1,0 +1,67 @@
+import mongoose from "../utils/db.js";
+import XLSX from "xlsx";
+import FinishedGoods from "../models/FinishedGoods.js";
+import RawMaterial from "../models/RawMaterials.js";
+
+// Load CSV
+const workbook = XLSX.readFile("./mocks/data/FG.csv");
+const sheet = workbook.Sheets[workbook.SheetNames[0]];
+const rows = XLSX.utils.sheet_to_json(sheet, {defval: ""});
+
+export const insertFinishedGoods = async () => {
+  try {
+    // Get 1 raw material of each class
+    const classA = await RawMaterial.findOne({class_type: "A"});
+    const classB = await RawMaterial.findOne({class_type: "B"});
+    const classC = await RawMaterial.findOne({class_type: "C"});
+
+    if (!classA || !classB || !classC) {
+      throw new Error(
+        "Missing one or more required raw materials (A, processed B, C)"
+      );
+    }
+
+    const finishedGoodsToInsert = [];
+
+    rows.forEach((row) => {
+      const {model, power, ratio, type,  MODEL_NUMBER,base_price, gst_slab,...others} = row;
+      let sanitizedBasePrice = String(base_price)
+      .replace(/[^0-9.]/g, '')    // Keep only numbers and dots
+      .replace(/^\.*/, '')        // Remove leading dots
+      .replace(/\.+$/, '')        // Remove trailing dots
+      .trim();
+      let sanitizedGstSlab = String(gst_slab)
+      .replace(/[^0-9.]/g, "")
+      .replace(/^\.*/, "")
+      .replace(/\.+$/, "")
+      .trim();
+      ["Base (Foot)", "Vertical (Flange)"].forEach((typeVal) => {
+        const finishedGood = {
+          model: model.toString().trim(),
+          power: power.toString().trim(),
+          ratio: ratio.toString().trim(),
+          type: typeVal,
+          other_specification: others,
+          raw_materials: [
+            {raw_material_id: classA._id, quantity: 1},
+            {raw_material_id: classB._id, quantity: 1},
+            {raw_material_id: classC._id, quantity: 1},
+          ],
+          rate_per_unit: mongoose.Types.Decimal128.fromString("0"),
+          base_price: mongoose.Types.Decimal128.fromString(sanitizedBasePrice),
+          gst_slab:mongoose.Types.Decimal128.fromString((sanitizedGstSlab  || "0")),
+          units: 0,
+        };
+
+        finishedGoodsToInsert.push(finishedGood);
+      });
+    });
+
+    const inserted = await FinishedGoods.insertMany(finishedGoodsToInsert);
+    const len = inserted.length;
+    console.log(`✅ Inserted ${len} finished goods into DB.`);
+  } catch (error) {
+    console.error("❌ Error inserting finished goods:", error);
+    await mongoose.connection.close();
+  }
+};

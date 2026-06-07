@@ -1,0 +1,265 @@
+{
+  "data": [
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "material": "Cast Iron",
+        "weight": "7kg",
+        "dimension": "120x80x60mm"
+      },
+      "name": "UNFLATTEN"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "material": "Aluminum",
+        "weight": "3.2kg",
+        "coating": "Anodized"
+      },
+      "name": "FLATTEN"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "material": "Steel",
+        "molding_type": "Sand Cast",
+        "finish": "Raw"
+      },
+      "name": "FLATTEN"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA102",
+        "type": "FOOT",
+        "weight": "6.5kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA102"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA102",
+        "type": "FLANGE",
+        "weight": "6.7kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA102"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA128",
+        "type": "FOOT",
+        "weight": "7.2kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA128"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA128",
+        "type": "FLANGE",
+        "weight": "7.4kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA128"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA142",
+        "type": "FOOT",
+        "weight": "8.1kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA142"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA142",
+        "type": "FLANGE",
+        "weight": "8.3kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA142"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA162",
+        "type": "FOOT",
+        "weight": "9.0kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA162"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MA162",
+        "type": "FLANGE",
+        "weight": "9.2kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MA162"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MB160",
+        "type": "FOOT",
+        "weight": "9.5kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MB160"
+    },
+    {
+      "class_type": "A",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "model": "MB160",
+        "type": "FLANGE",
+        "weight": "9.7kg",
+        "description": "Random description whatever fits it is a gearbox manufacturing company"
+      },
+      "name": "MB160"
+    },
+    {
+      "class_type": "B",
+      "quantity": {
+        "unprocessed": 0
+      },
+      "name": "Sun Gear",
+      "type": "UNPROCESSED"
+    },
+    {
+      "class_type": "B",
+      "quantity": {
+        "hobbing": 0
+      },
+      "name": "Shaft",
+      "type": "HOBBING"
+    },
+    {
+      "class_type": "B",
+      "quantity": {
+        "in_house_processing": 0
+      },
+      "name": "Final Drive Gear",
+      "type": "IN_HOUSE_PROCESSING"
+    },
+    {
+      "class_type": "B",
+      "quantity": {
+        "processed": 0
+      },
+      "name": "Gearbox Cover",
+      "type": "PROCESSED"
+    },
+    {
+      "class_type": "C",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "set_type": "Lubricant Kit",
+        "contains": "Gear Oil, Grease, Applicator"
+      },
+      "select_items": [
+        {
+          "item_name": "Gear Oil",
+          "grade": "EP90"
+        },
+        {
+          "item_name": "High Temp Grease",
+          "grade": "NLGI-2"
+        }
+      ],
+      "expiry_date": "2026-01-01"
+    },
+    {
+      "class_type": "C",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "set_type": "Accessory Kit",
+        "contains": "Mounting bolts, Seals, Keys"
+      },
+      "select_items": [
+        {
+          "item_name": "M12 Mounting Bolt",
+          "quantity": 6
+        },
+        {
+          "item_name": "Oil Seal",
+          "size": "30x50x10"
+        }
+      ],
+      "expiry_date": "2025-12-15"
+    },
+    {
+      "class_type": "C",
+      "quantity": {
+        "processed": 0
+      },
+      "other_specification": {
+        "set_type": "Spacer Kit",
+        "material": "Hardened Steel"
+      },
+      "select_items": [
+        {
+          "description": "Spacer Ring",
+          "thickness": "2mm"
+        },
+        {
+          "description": "Lock Washer",
+          "size": "M14"
+        }
+      ],
+      "expiry_date": "2026-05-30"
+    }
+  ]
+}

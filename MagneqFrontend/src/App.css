@@ -1,0 +1,13 @@
+@tailwind utilities;
+
+#root {
+  margin: 0 auto;
+  --bg-c:rgb(212, 17, 17);
+}
+body{
+  margin:0;
+  padding:0;
+}
+a{
+  all:unset;
+}
