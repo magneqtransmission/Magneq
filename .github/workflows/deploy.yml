@@ -65,7 +65,7 @@ jobs:
           SOURCE: "/"
           TARGET: "/home/ubuntu/"
           # Exclude node_modules, git metadata to speed up transfer
-          EXCLUDE: "/node_modules/, /MagneqFrontend/node_modules/, /MagneqBackend/node_modules/, /.git/, /.github/"
+          EXCLUDE: "node_modules/, .git/, .github/"
           SCRIPT_AFTER: |
             echo "Deployment transfer completed. Setting up on server..."
 
@@ -79,7 +79,7 @@ jobs:
             mkdir -p /home/ubuntu/frontend-prod/dist
             rm -rf /home/ubuntu/frontend-prod/dist/*
             cp -r /home/ubuntu/MagneqFrontend/dist/* /home/ubuntu/frontend-prod/dist/
-            sudo nginx -s reload
+            sudo -n nginx -s reload
 
             # 2. Setup Backend
             echo "Setting up backend..."
