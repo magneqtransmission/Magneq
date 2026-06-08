@@ -1,0 +1,95 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.4.1"
+
+      - name: Setup Frontend Environment File
+        working-directory: ./MagneqFrontend
+        env:
+          VITE_SERVER_URL: ${{ secrets.VITE_SERVER_URL }}
+          VITE_NODE_ENV: ${{ secrets.VITE_NODE_ENV }}
+        run: |
+          # Create frontend .env file for the build on the server
+          echo "VITE_SERVER_URL=$VITE_SERVER_URL" > .env
+          echo "VITE_NODE_ENV=$VITE_NODE_ENV" >> .env
+
+      - name: Setup Backend Environment File
+        working-directory: ./MagneqBackend
+        env:
+          PORT: ${{ secrets.PORT }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRY: ${{ secrets.JWT_EXPIRY }}
+          LOG_DIR: ${{ secrets.LOG_DIR }}
+          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+          LOG_RETENTION_DAYS: ${{ secrets.LOG_RETENTION_DAYS }}
+          LOG_MAX_SIZE: ${{ secrets.LOG_MAX_SIZE }}
+        run: |
+          # Create the production env file that the backend uses at runtime
+          cat << EOF > .env
+          PORT=$PORT
+          MONGO_URI=$MONGO_URI
+          JWT_SECRET=$JWT_SECRET
+          JWT_EXPIRY=$JWT_EXPIRY
+          LOG_DIR=$LOG_DIR
+          LOG_LEVEL=$LOG_LEVEL
+          LOG_RETENTION_DAYS=$LOG_RETENTION_DAYS
+          LOG_MAX_SIZE=$LOG_MAX_SIZE
+          EOF
+
+      - name: Deploy to Server via Rsync
+        uses: easingthemes/ssh-deploy@v5.1.0
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: customer.magneqtransmission.com
+          REMOTE_USER: ubuntu
+          ARGS: "-rltgoDzvO" # Fixes permissions copying (which might have blocked rsync writing)
+          SOURCE: "/"
+          TARGET: "/home/ubuntu/"
+          # Exclude node_modules, git metadata to speed up transfer
+          EXCLUDE: "/node_modules/, /MagneqFrontend/node_modules/, /MagneqBackend/node_modules/, /.git/, /.github/"
+          SCRIPT_AFTER: |
+            echo "Deployment transfer completed. Setting up on server..."
+
+            # Source NVM to ensure node, npm, and pm2 are in PATH
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            # 1. Setup & Build Frontend
+            echo "Installing frontend dependencies and building dist on server..."
+            cd /home/ubuntu/MagneqFrontend
+            npm install --legacy-peer-deps
+            npm run build
+
+            # Copy dist files to nginx root directory
+            echo "Copying build to production directory..."
+            mkdir -p /home/ubuntu/frontend-prod/dist
+            rm -rf /home/ubuntu/frontend-prod/dist/*
+            cp -r /home/ubuntu/MagneqFrontend/dist/* /home/ubuntu/frontend-prod/dist/
+            sudo nginx -s reload
+
+            # 2. Setup Backend
+            echo "Setting up backend..."
+            cd /home/ubuntu/MagneqBackend
+            npm install --legacy-peer-deps
+            # Restart or start backend PM2 process
+            pm2 restart magneq-backend || pm2 start npm --name "magneq-backend" -- start
+
+            pm2 save
+            echo "CI/CD Pipeline Completed Successfully!"
