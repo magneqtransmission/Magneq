@@ -82,6 +82,7 @@ jobs:
             mkdir -p /home/ubuntu/frontend-prod/dist
             rm -rf /home/ubuntu/frontend-prod/dist/*
             cp -r /home/ubuntu/MagneqFrontend/dist/* /home/ubuntu/frontend-prod/dist/
+            sudo nginx -s reload
 
             # 2. Setup Backend
             echo "Setting up backend..."
