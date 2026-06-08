@@ -57,7 +57,7 @@ jobs:
         uses: easingthemes/ssh-deploy@v5.1.0
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: customer.magneqtransmission.com
+          REMOTE_HOST: 13.200.116.61
           REMOTE_USER: ubuntu
           ARGS: "-rltgoDzvO" # Fixes permissions copying (which might have blocked rsync writing)
           SOURCE: "/"
