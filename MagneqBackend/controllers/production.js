@@ -150,13 +150,6 @@ export const getPendingProductionOrdersFromSales = async (req, res, next) => {
     // Get all sales orders with INPROCESS status
     let salesQuery = { status: "INPROCESS" };
 
-    if (search) {
-      const orderId = parseInt(search);
-      if (!isNaN(orderId)) {
-        salesQuery.order_id = orderId;
-      }
-    }
-
     const salesOrders = await Sales.find(salesQuery)
       .populate({
         path: "finished_goods.finished_good",
@@ -230,6 +223,13 @@ export const getPendingProductionOrdersFromSales = async (req, res, next) => {
       // Only include items with production required > 0
       if (productionRequired > 0) {
         const orderDetails = getFgModelNumber(fg);
+
+        if (search) {
+          const searchLower = search.toLowerCase();
+          if (!orderDetails.toLowerCase().includes(searchLower)) {
+            continue;
+          }
+        }
 
         allItems.push({
           id: fg._id,
