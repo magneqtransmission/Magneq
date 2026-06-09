@@ -467,6 +467,8 @@ export const updateTransportDetails = async (req, res, next) => {
       invoice.status = "PROCESSED";
     }
 
+    await invoice.save();
+
     logger.info(`Transport details updated for invoice: ${invoice.invoice_number}`);
     res.status(200).json({
       message: "Transport details updated successfully",
