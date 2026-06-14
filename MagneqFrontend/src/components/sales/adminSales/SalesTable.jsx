@@ -111,13 +111,11 @@ const SalesTable = ({isDashboard}) => {
         onRowClick={handleRowClick}
       />
       {/* Remove the hardcoded h2 click */}
-      {isDashboard && (
-        <Pagination
-          currentPage={page}
-          totalPages={data.total_pages}
-          onPageChange={handlePageChange}
-        />
-      )}
+      <Pagination
+        currentPage={page}
+        totalPages={data.total_pages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

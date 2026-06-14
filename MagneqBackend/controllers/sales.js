@@ -364,11 +364,19 @@ export const getAllSales = async (req, res, next) => {
   try {
     const pageNo = parseInt(req.query.page_no) || 1;
     const PAGE_SIZE = 10;
-    const searchOrderId = req.query.search ? parseInt(req.query.search) : null;
+    const searchQuery = req.query.search;
     const userId = req.query.user_id;
     const userRole = req.query.user_role;
 
-    const query = searchOrderId ? { order_id: searchOrderId } : {};
+    let query = {};
+    if (searchQuery) {
+      const matchNumbers = searchQuery.match(/\d+/);
+      if (matchNumbers) {
+        query.order_id = parseInt(matchNumbers[0]);
+      } else {
+        query.customer_name = { $regex: searchQuery, $options: "i" };
+      }
+    }
 
     // Apply role-based filtering using query parameters
     if (userRole === "CUSTOMER" && userId) {
