@@ -23,6 +23,7 @@
     "mongodb": "^7.0.0",
     "mongoose": "^8.16.0",
     "mongoose-sequence": "^6.0.1",
+    "nodemon": "^3.1.14",
     "puppeteer": "^21.11.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",

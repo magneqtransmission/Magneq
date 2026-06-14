@@ -18,8 +18,10 @@ const usePurchase = () => {
     });
   };
 
-  const getAllPurchaseOrders = () => {
-    return api.get(`${APIS.purchase_order}`);
+  const getAllPurchaseOrders = (page = 1, search = "") => {
+    return api.get(`${APIS.purchase_order}`, {
+      params: { page_no: page, search },
+    });
   };
 
   const getPendingPurchaseOrders = () => {

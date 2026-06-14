@@ -956,6 +956,15 @@ const generateInvoiceHTML = (invoice) => {
                 </div>
             ` : ''}
 
+            <!-- Transport Details -->
+            ${(invoice.transport_details || invoice.lr_number) ? `
+                <div class="sales-order-section">
+                    <h3>Transport Details:</h3>
+                    ${invoice.transport_details ? `<p><strong>Details:</strong> ${invoice.transport_details}</p>` : ''}
+                    ${invoice.lr_number ? `<p><strong>LR Number:</strong> ${invoice.lr_number}</p>` : ''}
+                </div>
+            ` : ''}
+
             <!-- Item Table -->
             <table class="items-table">
                 <thead>
